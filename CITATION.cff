@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+title: "OpenRoot Spoke Template"
+message: "If you use this template, please cite OpenRoot."
+authors:
+  - family-names: Ray
+    given-names: Jesse
+type: software
+license: GPL-3.0-or-later
+repository-code: "https://github.com/jesseray718/openroot-spoke-template"
