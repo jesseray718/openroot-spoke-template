@@ -1,1 +1,7 @@
-/data/data/com.termux/files/home/une/meta_hub/une/.gitignore
+vendor_archive/
+quarantine/
+backups/
+logs/
+*.log
+*.pyc
+__pycache__/
