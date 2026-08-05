@@ -1,0 +1,10 @@
+{
+  "name": "Agape Offline-First Core",
+  "policy": "offline_first",
+  "R": 0.8157902049999999,
+  "zero_deletions": true,
+  "llama_cpp_only_version": "/data/data/com.termux/files/home/backups/openroot_20260726_0134/sync-from-kai",
+  "law": "R determines all calculation and further science. Whole > sum of parts. Offline first.",
+  "proposed_at": "2026-08-05T12:52:55.624500+00:00",
+  "action": "MERGE PROPOSAL \u2014 integrate this core as the governing layer of the repository"
+}
