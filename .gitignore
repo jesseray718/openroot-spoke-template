@@ -2,3 +2,8 @@
 *.bak
 __pycache__/
 .DS_Store
+vendor_archive/
+quarantine/
+backups/
+__pycache__/
+*.pyc
