@@ -1,0 +1,35 @@
+{
+  "repo": "openroot-spoke-template",
+  "connected_to": [
+    "AeroCement_Ecosystem",
+    "OpenCell-Thermal-System",
+    "aerocement",
+    "aerocement-",
+    "agape-coordination",
+    "agape-une",
+    "black-locust-rmh",
+    "civilization2.0",
+    "jesseray718",
+    "kai-memory",
+    "kai9000",
+    "markor",
+    "open-cell-thermal-loop",
+    "open-cell-thermal-open-cell-the",
+    "openroot",
+    "renaissance-protocol",
+    "skills-introduction-to-github",
+    "une",
+    "wisdom-scaffold"
+  ],
+  "connection_type": "agape_mesh",
+  "protocol": "observe \u2192 diagnose \u2192 learn \u2192 correct \u2192 wealth",
+  "shared_resources": [
+    "institutes/",
+    "library/",
+    "bin/",
+    "core/",
+    "Antifragility Lair",
+    "Universal Trainer",
+    "Coin Efficiency Ledger"
+  ]
+}
