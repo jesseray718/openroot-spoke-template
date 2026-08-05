@@ -1,0 +1,28 @@
+name: 🛡️ Antifragility Lair & Ecosystem Health
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  ecosystem-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: 🏥 Calculate Health
+        run: |
+          echo "🏥 Scanning $GITHUB_REPOSITORY..."
+          SCORE=100
+          HARDCODED=$(grep -r "/sdcard/openroot/\|/data/data/com.termux" --include="*.py" --include="*.sh" . 2>/dev/null | grep -v "vendor_archive" | grep -v "quarantine" | wc -l)
+          if [ "$HARDCODED" -gt 0 ]; then SCORE=$((SCORE - (HARDCODED * 5))); fi
+          echo "Health Score: $SCORE"
+          echo "{\"score\": $SCORE, \"repo\": \"$GITHUB_REPOSITORY\", \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}" > health_report.json
+      - name: 📤 Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: health-report
+          path: health_report.json
