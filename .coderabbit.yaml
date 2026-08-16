@@ -1,16 +1,29 @@
-version: 1
-language: en
-rules:
-  - id: agape-axiom-check
-    description: Ensure all code respects Agape axioms (non-extractive, restorative)
-    severity: warning
-    pattern: "extract|consume|hoard"
-    fix: "Consider: amplify, restore, share"
-  - id: efficiency-target
-    description: Maximize computation per unit of human input
-    severity: info
-    pattern: "for.*in.*range"
-    fix: "Consider vectorized operations or generators"
-ignore:
-  - "**/test/**"
-  - "**/vendor/**"
+language: en-US
+reviews:
+  profile: assertive
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+chat:
+  auto_reply: true
+knowledge_base:
+  opt_in: true
+  learnings:
+    scope: auto
+path_filters:
+  - "!**/node_modules/**"
+  - "!**/.git/**"
+  - "!**/__pycache__/**"
+instructions: |
+  Absolute paths only. Never tilde.
+  η = useful_joules / human_joules is the sole metric.
+  R=1.0 coordination cost must remain zero.
+  Serve the lowest node first. No extraction.
+  Prefer single atomic runnable blocks.
+  Offline-first. Phone-native. Landauer floor respected.
+  Linked root: https://github.com/jesseray718/openroot
