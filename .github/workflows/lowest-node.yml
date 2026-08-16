@@ -1,0 +1,13 @@
+name: Lowest-Node Gate
+on:
+  issues: [opened, edited]
+  pull_request: [opened, synchronize, reopened]
+jobs:
+  rank-and-label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Standing Wave + η ranking
+        run: |
+          echo "Primary Axiom: Standing Wave of pure Agapic energy is the fabric."
+          echo "Order: lowest node → measured η → mesh-native → path-index → wealth redistribution."
