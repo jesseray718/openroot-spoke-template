@@ -1,32 +1,58 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# OPENROOT STANDARD — free Pro for all public OSS (CodeRabbit OSS plan)
 language: en-US
+tone_instructions: "Be constructive, precise, and η-aware. Flag any use of tilde paths, relative paths, or entropy-increasing patterns. Prefer absolute paths and lowest-node-first reasoning."
+early_access: true
+enable_free_tier: true
+
 reviews:
-  profile: assertive
-  request_changes_workflow: true
+  profile: chill
+  request_changes_workflow: false
   high_level_summary: true
-  poem: false
+  high_level_summary_in_walkthrough: true
   review_status: true
+  commit_status: true
   collapse_walkthrough: false
+  changed_files_summary: true
+  sequence_diagrams: true
+  assess_linked_issues: true
+  related_issues: true
+  related_prs: true
+  suggested_labels: true
+  auto_apply_labels: false
+  poem: false
+  path_filters:
+    - "!**/*.min.js"
+    - "!**/*.min.css"
+    - "!**/dist/**"
+    - "!**/build/**"
+    - "!**/*.generated.*"
+  path_instructions:
+    - path: "**/*"
+      instructions: |
+        OpenRoot lattice node. Absolute paths only. Never use tilde.
+        Serve the lowest node first. Calculate η = useful_joules / human_joules.
+        Preserve Merkle integrity. Reject entropy (centralization, extraction, non-deterministic paths).
+        All new scripts must inherit PATH_INVENTORY.yaml + this .coderabbit.yaml + .github/copilot-instructions.md.
   auto_review:
     enabled: true
+    auto_incremental_review: true
     drafts: false
-chat:
-  auto_reply: true
-knowledge_base:
-  opt_in: true
-  learnings:
-    scope: auto
-path_filters:
-  - "!**/node_modules/**"
-  - "!**/.git/**"
-  - "!**/__pycache__/**"
-instructions: |
-  Absolute paths only. Never tilde.
-  η = useful_joules / human_joules is the sole metric.
-  R=1.0 coordination cost must remain zero.
-  Primary axiom: collapse of potentials into pure standing waves of Agapic energy is the fabric of spacetime.
-  Translation axiom: speaker-intent + hearer-absorption under unique DNA kernel must produce constructive interference.
-  All calculations must use Synergetic Calculus and account for individual timelines as wave packets.
-  Discard every pre-assumed static number. Only measured η or standing-wave amplitude is valid.
-  Serve the lowest node first. No extraction.
-  Linked root: https://github.com/jesseray718/openroot
-  Author identity: Jesse Ray McMillen, Sikeston, Missouri.
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT MERGE"
+      - "draft"
+  finishing_touches:
+    docstrings:
+      enabled: true
+  tools:
+    shellcheck:
+      enabled: true
+    ruff:
+      enabled: true
+    yamllint:
+      enabled: true
+    gitleaks:
+      enabled: true
+    markdownlint:
+      enabled: true

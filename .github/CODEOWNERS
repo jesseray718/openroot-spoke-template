@@ -1,0 +1,8 @@
+# OPENROOT CODEOWNERS
+* @jesseray718
+*.yaml @jesseray718
+*.py @jesseray718
+.md @jesseray718
+.github/* @jesseray718
+/scripts/* @jesseray718
+/agape_kb/* @jesseray718

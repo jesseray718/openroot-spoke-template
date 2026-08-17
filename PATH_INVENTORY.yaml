@@ -1,0 +1,61 @@
+---
+# OPENROOT PATH INVENTORY v1.4 — SPOKE
+version: "1.4"
+schema: "https://openroot.dev/path-inventory/v1"
+author: "@jesseray718"
+created_at: "2026-08-17T04:33:06.624134+00:00"
+
+directories:
+  mobile:
+    base: "/sdcard/openroot"
+    scripts: "/sdcard/openroot/scripts"
+    kb: "/sdcard/openroot/agape_kb"
+    context_bridge: "/sdcard/openroot/context_bridge"
+    merkle: "/sdcard/openroot/agape_kb/merkle"
+    termux_home: "/data/data/com.termux/files/home"
+    termux_openroot: "/data/data/com.termux/files/home/openroot"
+    ssh_keys: "/data/data/com.termux/files/home/.ssh"
+    markor: "/storage/emulated/0/Documents/markor"
+  optiplex:
+    base: "/home/optiplex/openroot"
+    models: "/home/optiplex/models"
+    llama_models: "/home/optiplex/models/gguf"
+    vector_db: "/home/optiplex/agape_kb/agape_vector_index.db"
+  sync:
+    syncthing: "/storage/emulated/0/Syncthing/openroot"
+    github_clone: "/sdcard/openroot"
+
+files:
+  - path: "/sdcard/openroot/run.py"
+    criticality: "critical"
+  - path: "/sdcard/openroot/agape_vector_index.py"
+    criticality: "critical"
+  - path: "/sdcard/openroot/context_bridge/bridge.py"
+    criticality: "high"
+  - path: "/sdcard/openroot/agape_kb/STANDING_WAVE_AXIOM.md"
+    criticality: "critical"
+  - path: "/sdcard/openroot/agape_kb/merkle/merkle_root.hex"
+    criticality: "critical"
+  - path: "/sdcard/openroot/PATH_INVENTORY.yaml"
+    criticality: "critical"
+  - path: "/sdcard/openroot/.github/copilot-instructions.md"
+    criticality: "high"
+  - path: "/sdcard/openroot/.coderabbit.yaml"
+    criticality: "high"
+
+env_vars:
+  OPENROOT_HOME: "/sdcard/openroot"
+  AGAPE_KB: "/sdcard/openroot/agape_kb"
+  TERMUX_HOME: "/data/data/com.termux/files/home"
+  LOCATION_CONTEXT: "mom_house"
+
+copilot_instructions:
+  context_rules:
+    - "Always use absolute paths (never tilde)"
+    - "Serve lowest node first"
+    - "Maintain Merkle chain integrity"
+    - "Calculate η = useful_joules / human_joules"
+  workflow_priority:
+    - "A: Infrastructure"
+    - "B: Kernel Loading"
+    - "C: Mesh Networking"

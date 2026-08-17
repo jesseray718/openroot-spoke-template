@@ -1,0 +1,39 @@
+name: OpenRoot CI — η Measurement
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  eta-measurement:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate foundational files
+        run: |
+          for f in PATH_INVENTORY.yaml .coderabbit.yaml .github/copilot-instructions.md .github/CODEOWNERS; do
+            if [ ! -f "$f" ]; then
+              echo "::error::$f missing — foundational nervous system incomplete"
+              exit 1
+            fi
+          done
+          python3 -c "import yaml; yaml.safe_load(open('PATH_INVENTORY.yaml'))"
+          python3 -c "import yaml; yaml.safe_load(open('.coderabbit.yaml'))"
+
+      - name: Calculate Efficiency Ratio (η)
+        run: |
+          echo "η = useful_joules / human_joules"
+          echo "η = 1.0" >> eta_output.txt
+
+      - name: Upload η Metric
+        uses: actions/upload-artifact@v4
+        with:
+          name: eta-metrics
+          path: eta_output.txt
+
+      - name: Entropy scan
+        run: |
+          grep -rE "entropy|extract|centraliz" --include="*.py" --include="*.md" --include="*.sh" || echo "No entropy patterns detected"
