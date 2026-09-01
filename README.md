@@ -12,3 +12,6 @@ src/   — control code, scripts, firmware
 - License: CC-BY-SA-4.0 (docs) / GPL-3.0 (code)
 - Tag maturity: Concept | Modeled | Prototyped | Field-tested
 - Link your spoke in the [OpenRoot hub](https://github.com/jesseray718/openroot)
+
+## Knowledge Integration
+See `docs/knowledge/`.
