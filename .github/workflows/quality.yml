@@ -15,4 +15,4 @@ jobs:
     with:
       python-version: "3.12"
       compile-path: "."
-      test-command: "python -m unittest discover -v"
+      test-command: 'if find . -type f -name "test*.py" -print -quit | grep -q .; then python -m unittest discover -v; else echo "No unittest tests found; skipping test step."; fi'
