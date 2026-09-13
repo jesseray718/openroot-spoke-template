@@ -1,0 +1,18 @@
+name: Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-quality:
+    uses: jesseray718/.github/.github/workflows/python-quality.yml@main
+    with:
+      python-version: "3.12"
+      compile-path: "."
+      test-command: 'if find . -type f -name "test*.py" -print -quit | grep -q .; then python -m unittest discover -v; else echo "No unittest tests found; skipping test step."; fi'
