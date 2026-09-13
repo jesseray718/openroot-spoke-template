@@ -178,7 +178,9 @@ class QualityTestCommandBehaviorTests(unittest.TestCase):
 
         self.assertEqual(0, result.returncode, result.stderr)
         self.assertIn("Ran 1 test", result.stderr)
-        self.assertIn("test_passes (checks.test_nested.NestedTest)", result.stderr)
+        self.assertIn(
+            "test_passes (checks.test_nested.NestedTest.test_passes)", result.stderr
+        )
 
     def test_propagates_a_failing_test_exit_status(self):
         """Verify a failing unittest produces a nonzero command status."""
