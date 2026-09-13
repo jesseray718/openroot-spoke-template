@@ -32,6 +32,7 @@ def _indented_block(document, header, indentation):
 
 
 def _test_command(document):
+    """Extract the shell command configured for the shared workflow tests."""
     match = re.search(
         r"^\s+test-command:\s+'(?P<command>.*)'\s*$",
         document,
@@ -45,9 +46,11 @@ def _test_command(document):
 class QualityWorkflowContractTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        """Load the workflow once for all contract assertions."""
         cls.workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
 
     def test_has_the_expected_name_and_single_quality_job(self):
+        """Verify the workflow name and its single delegated quality job."""
         jobs = _indented_block(self.workflow, "jobs:", indentation=0)
 
         self.assertTrue(self.workflow.startswith("name: Quality\n"))
@@ -55,6 +58,7 @@ class QualityWorkflowContractTests(unittest.TestCase):
         self.assertRegex(jobs, r"(?m)^  python-quality:$")
 
     def test_runs_for_main_pushes_pull_requests_and_manual_dispatches(self):
+        """Verify every supported workflow trigger is configured."""
         triggers = _indented_block(self.workflow, "on:", indentation=0)
 
         self.assertRegex(triggers, r"(?m)^  push:\n    branches: \[main\]$")
@@ -62,11 +66,13 @@ class QualityWorkflowContractTests(unittest.TestCase):
         self.assertRegex(triggers, r"(?m)^  workflow_dispatch:$")
 
     def test_grants_only_read_access_to_repository_contents(self):
+        """Verify the workflow requests only read access to repository contents."""
         permissions = _indented_block(self.workflow, "permissions:", indentation=0)
 
         self.assertEqual("contents: read", permissions.strip())
 
     def test_delegates_to_the_expected_shared_workflow(self):
+        """Verify the quality job delegates to the shared workflow."""
         job = _indented_block(self.workflow, "python-quality:", indentation=2)
 
         self.assertRegex(
@@ -78,6 +84,7 @@ class QualityWorkflowContractTests(unittest.TestCase):
         self.assertNotIn("steps:", job)
 
     def test_passes_the_supported_python_quality_inputs(self):
+        """Verify the caller passes each supported Python quality input."""
         job = _indented_block(self.workflow, "python-quality:", indentation=2)
 
         self.assertRegex(job, r'(?m)^      python-version: "3\.12"$')
@@ -88,10 +95,12 @@ class QualityWorkflowContractTests(unittest.TestCase):
 class QualityTestCommandBehaviorTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        """Load the configured test command once for all behavior tests."""
         workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
         cls.test_command = _test_command(workflow)
 
     def _run_test_command(self, files=None, directories=()):
+        """Run the configured test command against a temporary repository."""
         with tempfile.TemporaryDirectory() as temporary_directory:
             working_directory = Path(temporary_directory)
             for directory in directories:
@@ -114,6 +123,7 @@ class QualityTestCommandBehaviorTests(unittest.TestCase):
             )
 
     def test_skips_cleanly_when_no_python_tests_exist(self):
+        """Verify repositories without Python tests complete successfully."""
         result = self._run_test_command(
             {"helper.py": "raise RuntimeError('this is not a test module')\n"}
         )
@@ -123,6 +133,7 @@ class QualityTestCommandBehaviorTests(unittest.TestCase):
         self.assertNotIn("Ran ", result.stderr)
 
     def test_ignores_test_named_directories_and_nonmatching_python_files(self):
+        """Verify discovery ignores directories and files outside its pattern."""
         result = self._run_test_command(
             {"checks/quality_test.py": "raise RuntimeError('must not be imported')\n"},
             directories=("test_helpers.py",),
@@ -132,6 +143,7 @@ class QualityTestCommandBehaviorTests(unittest.TestCase):
         self.assertIn("No unittest tests found; skipping test step.", result.stdout)
 
     def test_runs_a_matching_unittest_module(self):
+        """Verify discovery runs a matching top-level unittest module."""
         result = self._run_test_command(
             {
                 "test_example.py": """
@@ -150,6 +162,7 @@ class QualityTestCommandBehaviorTests(unittest.TestCase):
         self.assertNotIn("skipping test step", result.stdout)
 
     def test_discovers_matching_tests_in_a_package(self):
+        """Verify discovery runs matching tests within a Python package."""
         result = self._run_test_command(
             {
                 "checks/__init__.py": "",
@@ -168,6 +181,7 @@ class QualityTestCommandBehaviorTests(unittest.TestCase):
         self.assertIn("test_passes (checks.test_nested.NestedTest)", result.stderr)
 
     def test_propagates_a_failing_test_exit_status(self):
+        """Verify a failing unittest produces a nonzero command status."""
         result = self._run_test_command(
             {
                 "test_failure.py": """
