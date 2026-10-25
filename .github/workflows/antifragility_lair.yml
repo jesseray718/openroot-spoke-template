@@ -1,1 +1,52 @@
-/data/data/com.termux/files/home/une/meta_hub/une/.github/workflows/antifragility_lair.yml
+name: antifragility lair
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: yaml-parse guard (blocking)
+        run: |
+          python3 -c "import glob,sys,yaml
+          bad=0
+          for f in glob.glob('.github/workflows/*.yml') + glob.glob('.github/workflows/*.yaml'):
+              try:
+                  yaml.safe_load(open(f))
+              except Exception as e:
+                  print(f'::error::YAML parse failed in {f}: {e}')
+                  bad+=1
+          sys.exit(1 if bad else 0)"
+
+      - name: conflict-marker guard (blocking)
+        run: |
+          if grep -RInE '^(<<<<<<<|>>>>>>>)' --exclude-dir=.git . ; then
+            echo '::error::merge-conflict markers found'
+            exit 1
+          fi
+
+      - name: shell-hygiene scan (report-only)
+        continue-on-error: true
+        run: |
+          grep -RInE 'rm -rf (/|~)' --exclude-dir=.git . || true
+          grep -RInE 'curl [^|]*\| *(sudo )?(ba)?sh' --exclude-dir=.git . || true
+
+      - name: ghost-link scan (report-only)
+        continue-on-error: true
+        run: |
+          grep -RInE '(youtube|youtu\.be)[^ ]*(PLACEHOLDER|YOUR_VIDEO|VIDEO_ID|REPLACE)' --exclude-dir=.git . || true
+          grep -RInE 'https?://(localhost|127\.0\.0\.1|/data/data/com\.termux)' --exclude-dir=.git --include='*.md' . || true
+
+      - name: python-syntax scan (report-only)
+        continue-on-error: true
+        run: |
+          find . -name '*.py' -not -path './.git/*' -print0 | xargs -0 -r -n1 python3 -m py_compile || true
